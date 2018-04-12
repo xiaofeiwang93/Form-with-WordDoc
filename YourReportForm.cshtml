@@ -1,0 +1,248 @@
+@model YourNameSpace.Models.MatchCalledOffReportModel
+@using YourNameSpace.Controllers
+
+<div class="l-pg-section-wide">
+    @{
+        using (Html.BeginUmbracoForm<YourReportFormController>("SubmitReportForm", FormMethod.Post))
+        {
+            <div class="form form-m-trra">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><em><span class="asterisk">*</span> indicates required.</em></p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        
+                        <!--Text Box in Umbraco form--> 
+                        
+                        <label for="ReportDate">Report Date <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.ReportDate, new { placeholder = "dd/mm/yyyy" })
+                        @Html.ValidationMessageFor(model => model.ReportDate)
+                    </div>
+                </div>
+            </div>
+            <div class="form form-m-trra">
+                <h3>Referee Details</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        
+                        <!--Drop down list in Umbraco form--> 
+                        
+                        <label for="RefereeType">Referee Type <span class="asterisk">*</span></label>
+                        <div class="styled-select">
+                            @{
+                                List<SelectListItem> RefereeType = new List<SelectListItem>();
+                                RefereeType.Add(new SelectListItem { Text = "Referee", Value = "Referee" });
+                                RefereeType.Add(new SelectListItem { Text = "Assistant Referee", Value = "Assistant Referee" });
+
+                                ViewBag.RefereeType = new SelectList(RefereeType, "Value", "Text");
+                            }
+
+                            @Html.DropDownList("RefereeType", "Select referee type")
+                            @Html.ValidationMessageFor(model => model.RefereeType)
+                            <div class="styled-select--arrow">
+                                <i class="fa fa-lg fa-angle-down" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Check box in Umbraco form-->         
+                            
+                    <div class="col-xs-12 col-sm-12 col-lg-12 form--row">
+                        <div class="styled-checkbox-group">
+                            <div class="styled-checkbox">
+                                @Html.CheckBoxFor(model => model.Player)
+                                <label for="Player">Player</label>
+                            </div>
+                            <div class="styled-checkbox">
+                                @Html.CheckBoxFor(model => model.Coach)
+                                <label for="Coach">Coach</label>
+                            </div>
+                            <div class="styled-checkbox">
+                                @Html.CheckBoxFor(model => model.Manager)
+                                <label for="Manager">Manager</label>
+                            </div>
+                            <div class="styled-checkbox">
+                                @Html.CheckBoxFor(model => model.ClubOfficial)
+                                <label for="ClubOfficial">Club Official</label>
+                            </div>
+                            <div class="styled-checkbox">
+                                @Html.CheckBoxFor(model => model.Spectator)
+                                <label for="Spectator">Spectator</label>
+                            </div>
+                            @Html.ValidationMessage("ResponsibleChecked")
+                        </div>
+                        
+                        <!--Radio button in Umbraco form-->
+                        
+                        <div class="styled-radio-group">
+                            <h4>Prior Individual Caution</h4>
+                            <div class="styled-radio ">
+                                <label for="PriorIndividualCautionYes">Yes</label>
+                                @Html.RadioButton("PriorIndividualCaution", "Yes", new { @class = "js-red-card-only", @id = "js-radiobutton-1-yes" })
+                            </div>
+                            <div class="styled-radio ">
+                                <label for="PriorIndividualCautionNo">No</label>
+                                @Html.RadioButton("PriorIndividualCaution", "No", new { @class = "js-red-card-only", @id = "js-radiobutton-1-no" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PriorIndividualCaution)
+                            <span class="field-validation-error s-hidden" id="js-raidobutton1-error-message">Please select an option</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="RefereeName">Referee Name <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.RefereeName)
+                        @Html.ValidationMessageFor(model => model.RefereeName)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="RefereeUnion">Referee Union <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.RefereeUnion)
+                        @Html.ValidationMessageFor(model => model.RefereeUnion)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="RefereeEmail">Referee Email <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.RefereeEmail)
+                        @Html.ValidationMessageFor(model => model.RefereeEmail)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="RefereePhone">Referee Phone <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.RefereePhone)
+                        @Html.ValidationMessageFor(model => model.RefereePhone)
+                    </div>
+                </div>
+            </div>
+            <div class="form form-m-trra">
+                <h3>Fixture Details</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="FixtureDate">Date <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.FixtureDate, new { placeholder = "dd/mm/yyyy" })
+                        @Html.ValidationMessageFor(model => model.FixtureDate)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="Venue">Venue <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.Venue)
+                        @Html.ValidationMessageFor(model => model.Venue)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="Grade">Grade <span class="asterisk">*</span></label>
+                        <div class="styled-select">
+                            @{
+                                List<SelectListItem> Grade = new List<SelectListItem>();
+                                Grade.Add(new SelectListItem { Text = "Premier Grade", Value = "Premier Grade" });
+                                Grade.Add(new SelectListItem { Text = "Womens Premier", Value = "Womens Premier" });
+                                Grade.Add(new SelectListItem { Text = "Premier Reserve", Value = "Premier Reserve" });
+                                Grade.Add(new SelectListItem { Text = "Senior 1", Value = "Senior 1" });
+                                Grade.Add(new SelectListItem { Text = "Senior 2", Value = "Senior 2" });
+                                Grade.Add(new SelectListItem { Text = "Womens Development", Value = "Womens Development" });
+                                Grade.Add(new SelectListItem { Text = "Under 85KG", Value = "Under 85KG" });
+                                Grade.Add(new SelectListItem { Text = "Under 21", Value = "Under 21" });
+                                Grade.Add(new SelectListItem { Text = "Under 20", Value = "Under 20" });
+                                Grade.Add(new SelectListItem { Text = "1st XV", Value = "1st XV" });
+                                Grade.Add(new SelectListItem { Text = "2nd Grade", Value = "2nd Grade" });
+                                Grade.Add(new SelectListItem { Text = "3rd Grade", Value = "3rd Grade" });
+                                Grade.Add(new SelectListItem { Text = "4th Grade", Value = "4th Grade" });
+                                Grade.Add(new SelectListItem { Text = "5th Grade", Value = "5th Grade" });
+                                Grade.Add(new SelectListItem { Text = "6th Grade", Value = "6th Grade" });
+                                Grade.Add(new SelectListItem { Text = "7th Grade", Value = "7th Grade" });
+                                Grade.Add(new SelectListItem { Text = "Girls Secondary Schools", Value = "Girls Secondary Schools" });
+                                Grade.Add(new SelectListItem { Text = "Under 17", Value = "Under 17" });
+                                Grade.Add(new SelectListItem { Text = "Under 16", Value = "Under 16" });
+                                Grade.Add(new SelectListItem { Text = "Under 15", Value = "Under 15" });
+                                Grade.Add(new SelectListItem { Text = "Under 14", Value = "Under 14" });
+                                Grade.Add(new SelectListItem { Text = "Under 13", Value = "Under 13" });
+                                Grade.Add(new SelectListItem { Text = "Under 12", Value = "Under 12" });
+                                Grade.Add(new SelectListItem { Text = "Juniors", Value = "Juniors" });
+
+                                ViewBag.Grade = new SelectList(Grade, "Value", "Text");
+                            }
+                            @Html.DropDownList("Grade", "Select grade")
+                            @Html.ValidationMessageFor(model => model.Grade)
+                            <div class="styled-select--arrow">
+                                <i class="fa fa-lg fa-angle-down" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="HomeTeam">Home Team <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.HomeTeam)
+                        @Html.ValidationMessageFor(model => model.HomeTeam)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="Visitors">Visitors <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.Visitors)
+                        @Html.ValidationMessageFor(model => model.Visitors)
+                    </div>
+                </div>
+            </div>
+            <div class="form form-m-trra">
+                <h3>Time Incident Occurred</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="Period">Period (of game when incident occurred) <span class="asterisk">*</span></label>
+                        <div class="styled-select">
+                            @{
+                                List<SelectListItem> Period = new List<SelectListItem>();
+                                Period.Add(new SelectListItem { Text = "First Half", Value = "First Half" });
+                                Period.Add(new SelectListItem { Text = "Second Half", Value = "Second Half" });
+                                Period.Add(new SelectListItem { Text = "Extra Time", Value = "Extra Time" });
+
+                                ViewBag.Period = new SelectList(Period, "Value", "Text");
+                            }
+
+                            @Html.DropDownList("Period", "Select period")
+                            @Html.ValidationMessageFor(model => model.Period)
+                            <div class="styled-select--arrow">
+                                <i class="fa fa-lg fa-angle-down" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="TimeElapsed">Time Elapsed <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.TimeElapsed)
+                        @Html.ValidationMessageFor(model => model.TimeElapsed)
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-12 form--row">
+                        <label for="Score">Score at time (Pts) <span class="asterisk">*</span></label>
+                        @Html.TextBoxFor(model => model.Score, new { placeholder = "e.g. 20 (Home) vs 15 (Visitor)" })
+                        @Html.ValidationMessageFor(model => model.Score)
+                    </div>
+                </div>
+            </div>
+            <div class="form form-m-trra">
+                <h3>Match Called-Off Details</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 form--row">
+                        <label for="Circumstances">What were the circumstances in which the match was called off? <span class="asterisk">*</span></label>
+                        @Html.TextAreaFor(model => model.Circumstances)
+                        @Html.ValidationMessageFor(model => model.Circumstances)
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-12 form--row">
+                        <label for="Misconduct">What were the examples of the persistent or serious Foul Play or Misconduct that led to the match being called off and who committed these offences? <span class="asterisk">*</span></label>
+                        @Html.TextAreaFor(model => model.Misconduct)
+                        @Html.ValidationMessageFor(model => model.Misconduct)
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-12 form--row">
+                        <label for="Details">Were one or both teams responsible for the match being called off (give details)? <span class="asterisk">*</span></label>
+                        @Html.TextAreaFor(model => model.Details)
+                        @Html.ValidationMessageFor(model => model.Details)
+                    </div>
+                </div>
+            </div>
+            <div class="form form-m-trra">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 form--row">
+                        <div class="g-recaptcha" data-sitekey="6LcIWU4UAAAAAHOGaHg1Oab1dmXpJpAO2lL7v4Lu"></div>
+                        @Html.ValidationMessage("reCAPTCHA")
+                    </div>
+                </div>
+            </div>
+            <div class="form form-m-trra">
+                <div class="row form--row form--row-m-action">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn">Send</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
